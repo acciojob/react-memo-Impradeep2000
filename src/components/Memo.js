@@ -1,59 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import 'regenerator-runtime/runtime';
+import React, { useState } from "react";
 
-function Memo() {
-  const [todos, setTodos] = useState([]);
-  const [count, setCount] = useState(0);
-  const [memoText, setMemoText] = useState('');
+const Memo = () =>{
+    const[text,setText] = useState("");
+    const[memo,setMemo] = useState([]);
 
-  useEffect(() => {
-    document.title = `Memo (${todos.length})`;
-  }, [todos]);
-
-  const handleAddTodo = () => {
-    setTodos([...todos, { content: 'New todo' }]);
-  };
-
-  const handleIncrement = () => {
-    setCount(count + 1);
-  };
-
-  const handleMemoSubmit = (e) => {
-    e.preventDefault();
-    if (memoText.length > 5) {
-      setTodos([...todos, { content: memoText }]);
-      setMemoText('');
-    } else {
-      alert('Memo text should be greater than 5 characters.');
+   function submitMemo(){
+    if(text.length>5)
+    {
+        setMemo([...memo,text]);
+        setText("");
     }
-  };
+    else{
+        setText("");
+    }
+      
+   }
 
-  return (
-    <div id='main'>
-      <h1>Memo</h1>
-      <p>Number of todos: {todos.length}</p>
-      <button onClick={handleAddTodo} id='add-todo-btn'>Add todo</button>
-      <br />
-      <button onClick={handleIncrement} id='incr-cnt'>Increment count: {count}</button>
-      <br />
-      <form onSubmit={handleMemoSubmit}>
-        <label htmlFor="memo">Memo:</label>
-        <br />
-        <textarea
-          id="memo"
-          value={memoText}
-          onChange={(e) => setMemoText(e.target.value)}
-        />
-        <br />
-        <button type="submit" id='skill-input'>Add to list</button>
-      </form>
-      <ul>
-        {todos.map((todo, index) => (
-          <li key={index}>{todo.content}</li>
-        ))}
-      </ul>
-    </div>
-  );
+    return(
+       <div>
+           <h3>Memo</h3>
+           <input id="skill-input" onChange={e=>setText(e.target.value)} value={text} />
+           <button id="skill-btn" onClick={submitMemo}>Submit</button>
+           <ul>
+            {
+                memo.map((ele)=>(
+                    <li id={`item-jumbotron`}>{ele}</li>
+                ))
+            }
+           </ul>
+       </div>
+    )
 }
 
 export default Memo;
